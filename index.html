@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <script src="Cpu.js"></script>
+    <script src="Argument.js"></script>
+    <script src="Instruction.js"></script>
+    <script src="instructions/JP_ADDR.js"></script>
+    <script src="instructions/ADD_VX_VY.js"></script>
+    <script src="instructions/AND_VX_VY.js"></script>
+    <script src="instructions/LD_VX_Y.js"></script>
+    <script src="instructions/OR_VX_VY.js"></script>
+    <script src="instructions/XOR_VX_VY.js"></script>
+    <script>
+        //PRG01 - Loads 0xA on registers 0 and 1 and adds them together into V0
+        let PRG01 = new Uint8Array([
+            0x60, 0x0A, //LD V0, 0xA
+            0x61, 0x0A, //LD V1, 0xA
+            0x80, 0x14  //ADD V0, V1
+        ]);
+
+        let cpu = new Cpu();
+    </script>
+</body>
+</html>
