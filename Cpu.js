@@ -2,6 +2,10 @@ const CPU_START_ADDR = 0x200;
 
 class Cpu {
     constructor(){
+        this.reset();
+    }
+
+    reset(){
         this.memory = new Uint8Array(4096);
         this.registers = new Uint8Array(16);
         this.stack = new Uint16Array(16);

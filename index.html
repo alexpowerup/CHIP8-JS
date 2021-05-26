@@ -20,11 +20,28 @@
     <script src="instructions/XOR_VX_VY.js"></script>
     <script>
         //PRG01 - Loads 0xA on registers 0 and 1 and adds them together into V0
-        let PRG01 = new Uint8Array([
-            0x60, 0x0A, //LD V0, 0xA
-            0x61, 0x0A, //LD V1, 0xA
-            0x80, 0x14  //ADD V0, V1
-        ]);
+        let PRG01 = {
+            data: new Uint8Array([
+                0x60, 0x0A, //LD V0, 0xA
+                0x61, 0x0A, //LD V1, 0xA
+                0x80, 0x14  //ADD V0, V1
+            ]),
+            callback: (cpu)=>{
+                //expected result: 0x14
+                var res = cpu.registers[0x0];
+                if(res == 0x14) console.log("PRG01 SUCCESS! OUTPUT: 0x" + res.toString(16).toUpperCase());
+                else console.error("PRG01 ERROR! OUTPUT: 0x" + res.toString(16).toUpperCase() + "; EXPECTED: 0x14");
+            }
+        };
+
+        function runPRG(PRG, cpu){
+            cpu.reset();
+            cpu.load(PRG.data);
+            console.log("RUNNING PROGRAM");
+            cpu.execute(-1);
+            console.log("PROGRAM ENDED");
+            if(typeof PRG.callback === 'function') PRG.callback(cpu);
+        }
 
         let cpu = new Cpu();
     </script>
