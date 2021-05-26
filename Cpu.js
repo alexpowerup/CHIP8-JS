@@ -29,10 +29,14 @@ class Cpu {
     }
 
     execute(cycles){
-        if(cycles<=0) cycles = 9999999999; //run forever until fault
-
-        for(var i=0; i<cycles; i++){
-            if(!this.cycle()) break;
+        if(cycles<=0 || cycles === undefined){ //run forever until fault
+            while(true){
+                if(!this.cycle()) break;
+            }
+        } else { //run until all cycles are done or fault
+            for(var i=0; i<cycles; i++){
+                if(!this.cycle()) break;
+            }
         }
     }
 
