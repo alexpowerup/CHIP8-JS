@@ -12,12 +12,21 @@
     <script src="Cpu.js"></script>
     <script src="Argument.js"></script>
     <script src="Instruction.js"></script>
-    <script src="instructions/JP_ADDR.js"></script>
+
+    <!--INSTRUCTIONS-->
     <script src="instructions/ADD_VX_VY.js"></script>
     <script src="instructions/AND_VX_VY.js"></script>
+    <script src="instructions/CALL_ADDR.js"></script>
+    <script src="instructions/CLS.js"></script>
+    <script src="instructions/JP_ADDR.js"></script>
     <script src="instructions/LD_VX_Y.js"></script>
     <script src="instructions/OR_VX_VY.js"></script>
+    <script src="instructions/RET.js"></script>
+    <script src="instructions/SE_VX_Y.js"></script>
+    <script src="instructions/SNE_VX_Y.js"></script>
+    <script src="instructions/SYS_ADDR.js"></script>
     <script src="instructions/XOR_VX_VY.js"></script>
+
     <script>
         //PRG01 - Loads 0xA on registers 0 and 1 and adds them together into V0
         let PRG01 = {
@@ -26,6 +35,7 @@
                 0x61, 0x0A, //LD V1, 0xA
                 0x80, 0x14  //ADD V0, V1
             ]),
+            cycles: 10,
             callback: (cpu)=>{
                 //expected result: 0x14
                 var res = cpu.registers[0x0];
@@ -34,11 +44,54 @@
             }
         };
 
+        //PRG02 - Loads 0xFF on V0 and tests the SE instruction. If it works, VF = 0x01; if it doesn't, VF = 0xFF
+        let PRG02 = {
+            data: new Uint8Array([
+                0x60, 0xFF, //LD V0, #FF
+                0x30, 0xFF, //SE V0, #FF
+                0x6F, 0xFF, //LD VF, #FF (fail)
+                0x6F, 0x01, //LD VF, #01 (success)
+            ]),
+            cycles: 3,
+            callback: (cpu)=>{
+                //expected result: 0x01
+                var res = cpu.registers[0xF];
+                if(res == 0x01) console.log("PRG02 SUCCESS! OUTPUT: 0x" + res.toString(16).toUpperCase());
+                else console.error("PRG02 ERROR! OUTPUT: 0x" + res.toString(16).toUpperCase() + "; EXPECTED: 0x01");
+            }
+        }
+
+        //PRG03 - Loads 0xFF on V0 and tests the SNE instruction. If it works, VF = 0x01; if it doesn't, VF = 0xFF
+        let PRG03 = {
+            data: new Uint8Array([
+                0x60, 0xFF, //LD V0, #FF
+                0x40, 0xFF, //SNE V0, #FF
+                0x6F, 0x01, //LD VF, #01 (fail)
+                0x6F, 0xFF, //LD VF, #FF (success)
+            ]),
+            cycles: 3,
+            callback: (cpu)=>{
+                //expected result: 0x01
+                var res = cpu.registers[0xF];
+                if(res == 0x01) console.log("PRG03 SUCCESS! OUTPUT: 0x" + res.toString(16).toUpperCase());
+                else console.error("PRG03 ERROR! OUTPUT: 0x" + res.toString(16).toUpperCase() + "; EXPECTED: 0x01");
+            }
+        }
+
         function runPRG(PRG, cpu){
             cpu.reset();
             cpu.load(PRG.data);
             console.log("RUNNING PROGRAM");
-            cpu.execute();
+            cpu.execute(PRG.cycles);
+            console.log("PROGRAM ENDED");
+            if(typeof PRG.callback === 'function') PRG.callback(cpu);
+        }
+
+        function runPRG(PRG, cpu){
+            cpu.reset();
+            cpu.load(PRG.data);
+            console.log("RUNNING PROGRAM");
+            cpu.execute(PRG.cycles);
             console.log("PROGRAM ENDED");
             if(typeof PRG.callback === 'function') PRG.callback(cpu);
         }

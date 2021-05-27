@@ -28,6 +28,11 @@ class Cpu {
         });
     }
 
+    //TODO: implement screen and clear function
+    clearScreen(){
+
+    }
+
     execute(cycles){
         if(cycles<=0 || cycles === undefined){ //run forever until fault
             while(true){

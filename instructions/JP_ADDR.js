@@ -6,7 +6,7 @@ class JP_ADDR extends Instruction{
     }
 
     execute(inst, cpu){
-        //Jump to Argument 1 memory address
+        //Jump to Argument 0 memory address
         cpu.PC = this.args[0].value(inst, cpu);
     }
 }
