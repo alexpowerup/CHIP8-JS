@@ -12,7 +12,7 @@ class Cpu {
         this.ST = 0;
         this.DT = 0;
         this.I = 0;
-        this.SP = -1;
+        this.SP = 0;
         this.PC = CPU_START_ADDR;
     }
 
