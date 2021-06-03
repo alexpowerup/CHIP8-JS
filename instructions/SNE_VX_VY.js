@@ -12,4 +12,4 @@ class SNE_VX_VY extends Instruction{
     }
 }
 
-Instruction.iset.push(SNE_VX_Y);
+Instruction.iset.push(SNE_VX_VY);

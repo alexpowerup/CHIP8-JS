@@ -46,8 +46,7 @@ class Instruction {
         cpu.PC += this.addPCAfterExec;
     }
 
-    static run(inst, cpu){
-        //first identify the instruction associated with this opcode
+    static getInstruction(inst){
         var tmpInst = null;
         var found = false;
         Instruction.iset.forEach((i)=>{
@@ -59,6 +58,12 @@ class Instruction {
             }
             tmpInst = null;
         });
+        return tmpInst;
+    }
+
+    static run(inst, cpu){
+        //first identify the instruction associated with this opcode
+       var tmpInst = Instruction.getInstruction(inst);
 
         if(!tmpInst){
             console.error("ILLEGAL INSTRUCTION: 0x" + inst.toString(16).toUpperCase());
@@ -71,5 +76,11 @@ class Instruction {
         console.log("INSTRUCTION 0x" + inst.toString(16).toUpperCase() +" DECODED AS " + tmpInst.getAsm(inst));
 
         return true;
+    }
+
+    static disasm(inst){
+        var tmpInst = Instruction.getInstruction(inst);
+
+        return tmpInst.getAsm(inst);
     }
 }

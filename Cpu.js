@@ -53,4 +53,16 @@ class Cpu {
         //decode and execute
         return Instruction.run(inst, this);
     }
+
+    disasm(start=CPU_START_ADDR, limit=0x20){
+        var ret = '';
+        var inst = 0x0000;
+        for(var i=start; i<(start+limit); i+=2){
+            inst = this.memory[i] << 8;
+            inst += this.memory[i+1];
+            ret += `0x${i.toString(16).toUpperCase()} - ${Instruction.disasm(inst)}\n`;
+        }
+
+        return ret;
+    }
 }
