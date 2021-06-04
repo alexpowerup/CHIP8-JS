@@ -81,6 +81,11 @@ class Instruction {
     static disasm(inst){
         var tmpInst = Instruction.getInstruction(inst);
 
+        if(!tmpInst){
+            console.error("INSTRUCTION PATTERN NOT FOUND: 0x" + inst.toString(16).toUpperCase());
+            return '';
+        }
+
         return tmpInst.getAsm(inst);
     }
 }
