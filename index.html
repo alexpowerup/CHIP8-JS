@@ -15,9 +15,11 @@
     </style>
 </head>
 <body>
-    <button onclick="runPRG(PRG01, cpu)">Run PRG01</button>
+    <button onclick="runPRG(PRG01, cpu, false)">Run PRG01</button>
     <button onclick="runPRG(PRG02, cpu)">Run PRG02</button>
     <button onclick="runPRG(PRG03, cpu)">Run PRG03</button>
+
+    <button onclick="cpu.cycle()">Step</button>
     <br/>
     <br/>
     <table border="1" id="tableRegisters">
@@ -274,14 +276,16 @@
             document.querySelector('#MEM' + cpu.PC.toString(16).toUpperCase()).classList.add('currentPC');
         }
 
-        function runPRG(PRG, cpu){
+        function runPRG(PRG, cpu, autorun = true){
             cpu.reset();
             cpu.setCycleCallback(updateInterface);
             cpu.load(PRG.data);
-            console.log("RUNNING PROGRAM");
-            cpu.execute(PRG.cycles);
-            console.log("PROGRAM ENDED");
-            if(typeof PRG.callback === 'function') PRG.callback(cpu);
+            if(autorun){
+                console.log("RUNNING PROGRAM");
+                cpu.execute(PRG.cycles);
+                console.log("PROGRAM ENDED");
+                if(typeof PRG.callback === 'function') PRG.callback(cpu);
+            }
         }
 
         let cpu = new Cpu();
