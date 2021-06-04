@@ -5,10 +5,138 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .currentSP{
+            background-color: greenyellow;
+        }
+        .currentPC{
+            background-color: blue;
+        }
+    </style>
 </head>
 <body>
+    <button onclick="runPRG(PRG01, cpu)">Run PRG01</button>
+    <button onclick="runPRG(PRG02, cpu)">Run PRG02</button>
+    <button onclick="runPRG(PRG03, cpu)">Run PRG03</button>
+    <br/>
+    <br/>
+    <table border="1" id="tableRegisters">
+        <thead>
+            <tr>
+                <th>V0</th>
+                <th>V1</th>
+                <th>V2</th>
+                <th>V3</th>
+                <th>V4</th>
+                <th>V5</th>
+                <th>V6</th>
+                <th>V7</th>
+                <th>V8</th>
+                <th>V9</th>
+                <th>VA</th>
+                <th>VB</th>
+                <th>VC</th>
+                <th>VD</th>
+                <th>VE</th>
+                <th>VF</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="V0"></td>
+                <td id="V1"></td>
+                <td id="V2"></td>
+                <td id="V3"></td>
+                <td id="V4"></td>
+                <td id="V5"></td>
+                <td id="V6"></td>
+                <td id="V7"></td>
+                <td id="V8"></td>
+                <td id="V9"></td>
+                <td id="VA"></td>
+                <td id="VB"></td>
+                <td id="VC"></td>
+                <td id="VD"></td>
+                <td id="VE"></td>
+                <td id="VF"></td>
+            </tr>
+        </tbody>
+    </table>
 
+    <table border="1" id="tableStack">
+        <tbody>
+            <tr>
+                <th>0xF</th>
+                <td id="SF"></td>
+            </tr>
+            <tr>
+                <th>0xE</th>
+                <td id="SE"></td>
+            </tr>
+            <tr>
+                <th>0xD</th>
+                <td id="SD"></td>
+            </tr>
+            <tr>
+                <th>0xC</th>
+                <td id="SC"></td>
+            </tr>
+            <tr>
+                <th>0xB</th>
+                <td id="SB"></td>
+            </tr>
+            <tr>
+                <th>0xA</th>
+                <td id="SA"></td>
+            </tr>
+            <tr>
+                <th>0x9</th>
+                <td id="S9"></td>
+            </tr>
+            <tr>
+                <th>0x8</th>
+                <td id="S8"></td>
+            </tr>
+            <tr>
+                <th>0x7</th>
+                <td id="S7"></td>
+            </tr>
+            <tr>
+                <th>0x6</th>
+                <td id="S6"></td>
+            </tr>
+            <tr>
+                <th>0x5</th>
+                <td id="S5"></td>
+            </tr>
+            <tr>
+                <th>0x4</th>
+                <td id="S4"></td>
+            </tr>
+            <tr>
+                <th>0x3</th>
+                <td id="S3"></td>
+            </tr>
+            <tr>
+                <th>0x2</th>
+                <td id="S2"></td>
+            </tr>
+            <tr>
+                <th>0x1</th>
+                <td id="S1"></td>
+            </tr>
+            <tr>
+                <th>0x0</th>
+                <td id="S0"></td>
+            </tr>
+        </tbody>
+    </table>
 
+    <table border="1" id="tableProgram">
+        <tbody></tbody>
+    </table>
+
+    <!-- ENTITIES -->
     <script src="Cpu.js"></script>
     <script src="Argument.js"></script>
     <script src="Instruction.js"></script>
@@ -48,8 +176,11 @@
             callback: (cpu)=>{
                 //expected result: 0x14
                 var res = cpu.registers[0x0];
-                if(res == 0x14) console.log("PRG01 SUCCESS! OUTPUT: 0x" + res.toString(16).toUpperCase());
-                else console.error("PRG01 ERROR! OUTPUT: 0x" + res.toString(16).toUpperCase() + "; EXPECTED: 0x14");
+                if(res == 0x14){
+                    console.log("PRG01 SUCCESS! OUTPUT: 0x" + res.toString(16).toUpperCase());
+                } else {
+                    console.error("PRG01 ERROR! OUTPUT: 0x" + res.toString(16).toUpperCase() + "; EXPECTED: 0x14");
+                }
             }
         };
 
@@ -65,8 +196,11 @@
             callback: (cpu)=>{
                 //expected result: 0x01
                 var res = cpu.registers[0xF];
-                if(res == 0x01) console.log("PRG02 SUCCESS! OUTPUT: 0x" + res.toString(16).toUpperCase());
-                else console.error("PRG02 ERROR! OUTPUT: 0x" + res.toString(16).toUpperCase() + "; EXPECTED: 0x01");
+                if(res == 0x01){
+                    console.log("PRG02 SUCCESS! OUTPUT: 0x" + res.toString(16).toUpperCase());
+                } else {
+                    console.error("PRG02 ERROR! OUTPUT: 0x" + res.toString(16).toUpperCase() + "; EXPECTED: 0x01");
+                }
             }
         }
 
@@ -82,22 +216,67 @@
             callback: (cpu)=>{
                 //expected result: 0x01
                 var res = cpu.registers[0xF];
-                if(res == 0x01) console.log("PRG03 SUCCESS! OUTPUT: 0x" + res.toString(16).toUpperCase());
-                else console.error("PRG03 ERROR! OUTPUT: 0x" + res.toString(16).toUpperCase() + "; EXPECTED: 0x01");
+                if(res == 0x01){
+                    console.log("PRG03 SUCCESS! OUTPUT: 0x" + res.toString(16).toUpperCase());
+                } else {
+                    console.error("PRG03 ERROR! OUTPUT: 0x" + res.toString(16).toUpperCase() + "; EXPECTED: 0x01");
+                }
             }
         }
 
-        function runPRG(PRG, cpu){
-            cpu.reset();
-            cpu.load(PRG.data);
-            console.log("RUNNING PROGRAM");
-            cpu.execute(PRG.cycles);
-            console.log("PROGRAM ENDED");
-            if(typeof PRG.callback === 'function') PRG.callback(cpu);
+        function updateInterface(cpu){
+            //registers
+            for(var i=0x0; i<=0xF; i++){
+                var numBase = 16;
+                var numBaseTxt = '0x';
+                if(i==0xF){
+                    numBase = 2;
+                    numBaseTxt = '';
+                }
+                document.querySelector('#tableRegisters #V' + i.toString(16).toUpperCase()).innerText = numBaseTxt + cpu.registers[i].toString(numBase).toUpperCase();
+            }
+
+            //stack
+            document.querySelectorAll('#tableStack tr.currentSP').forEach((v)=>{
+                v.classList.remove('currentSP');
+            });
+
+            for(var i=0x0; i<=0xF; i++){
+                document.querySelector('#tableStack #S' + i.toString(16).toUpperCase()).innerText = '0x' + cpu.stack[i].toString(16).toUpperCase();
+            }
+
+            document.querySelector('#tableStack #S' + cpu.SP.toString(16).toUpperCase()).parentElement.classList.add('currentSP');
+
+            //Memory
+            var tableIn = document.querySelector('#tableProgram tbody');
+            
+            var child = tableIn.lastElementChild; 
+            while (child) {
+                tableIn.removeChild(child);
+                child = tableIn.lastElementChild;
+            }
+
+            for(var i=0x200; i<=0x2FF; i+=2){
+                var inst = cpu.memory[i] << 8; inst += cpu.memory[i+1];
+
+                var tmp = document.createElement('tr'); tmp.id = 'MEM' + i.toString(16).toUpperCase();
+
+                var tmp_ = document.createElement('th'); tmp_.innerText = '0x' + i.toString(16).toUpperCase();
+                tmp.appendChild(tmp_);
+                var tmp_ = document.createElement('td'); tmp_.innerText = '0x' + inst.toString(16).toUpperCase();
+                tmp.appendChild(tmp_);
+                var tmp_ = document.createElement('td'); tmp_.innerText = Instruction.disasm(inst);
+                tmp.appendChild(tmp_);
+
+                tableIn.appendChild(tmp);
+            }
+
+            document.querySelector('#MEM' + cpu.PC.toString(16).toUpperCase()).classList.add('currentPC');
         }
 
         function runPRG(PRG, cpu){
             cpu.reset();
+            cpu.setCycleCallback(updateInterface);
             cpu.load(PRG.data);
             console.log("RUNNING PROGRAM");
             cpu.execute(PRG.cycles);
@@ -106,6 +285,8 @@
         }
 
         let cpu = new Cpu();
+
+        updateInterface(cpu);
     </script>
 </body>
 </html>

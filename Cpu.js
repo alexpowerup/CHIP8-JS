@@ -14,6 +14,7 @@ class Cpu {
         this.I = 0;
         this.SP = 0;
         this.PC = CPU_START_ADDR;
+        this.cycleCallback = undefined;
     }
 
     load(data, start){
@@ -51,7 +52,11 @@ class Cpu {
         inst += this.memory[this.PC+1];
 
         //decode and execute
-        return Instruction.run(inst, this);
+        var ret = Instruction.run(inst, this);
+
+        if(this.cycleCallback) this.cycleCallback(this);
+
+        return ret;
     }
 
     disasm(start=CPU_START_ADDR, limit=0x20){
@@ -64,5 +69,10 @@ class Cpu {
         }
 
         return ret;
+    }
+
+    setCycleCallback(f){
+        if(typeof(f) === 'function')
+            this.cycleCallback = f;
     }
 }
